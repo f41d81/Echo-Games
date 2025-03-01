@@ -116,32 +116,22 @@
                     gameContainer.style.boxShadow = "0px 0px 20px rgba(255, 255, 255, 0.5)";
                     playSound("mystery-sound");
                 } else if (option === 2) {
-                    story.innerText = "Keheningan semakin dalam. Tidak ada suara, hanya keberadaan.";
-                    buttons[0].innerText = "Melangkah ke arah cahaya samar.";
-                    buttons[1].innerText = "Mundur ke dalam kegelapan.";
-                    buttons[0].setAttribute("onclick", "choose(12)");
-                    buttons[1].setAttribute("onclick", "choose(20)");
+                    story.innerText = "Keheningan semakin dalam. Tiba-tiba, sosok samar muncul di hadapanmu.";
+                    buttons[0].innerText = "Bertanya kepada sosok itu.";
+                    buttons[1].innerText = "Diam dan mengamati.";
+                    buttons[0].setAttribute("onclick", "choose(30)");
+                    buttons[1].setAttribute("onclick", "choose(31)");
                     document.body.style.backgroundColor = "#111";
-                    gameContainer.style.boxShadow = "0px 0px 30px rgba(255, 0, 0, 0.5)";
+                    gameContainer.style.boxShadow = "0px 0px 30px rgba(0, 0, 255, 0.5)";
                     playSound("intense-sound");
-                    shakeEffect(gameContainer);
-                } else if (option === 20) {
-                    story.innerText = "Kamu melangkah mundur dan merasakan tanah menghilang di bawah kakimu. Kamu jatuh ke dalam kehampaan.";
-                    buttons[0].innerText = "Berusaha meraih sesuatu.";
-                    buttons[1].innerText = "Menerima kejatuhan.";
-                    buttons[0].setAttribute("onclick", "choose(21)");
-                    buttons[1].setAttribute("onclick", "choose(22)");
-                    document.body.style.backgroundColor = "#000";
-                    playSound("mystery-sound");
-                } else if (option === 21) {
-                    story.innerText = "Tanganmu menyentuh sesuatu yang tak terlihat. Sebuah pintu terbuka di tengah kehampaan.";
-                    buttons[0].innerText = "Masuk ke dalam pintu.";
-                    buttons[1].innerText = "Menunggu dan mengamati.";
-                    buttons[0].setAttribute("onclick", "choose(23)");
-                    buttons[1].setAttribute("onclick", "choose(24)");
-                    document.body.style.backgroundColor = "#333";
-                } else if (option === 22) {
-                    story.innerText = "Kamu menyerah pada kehampaan dan menyadari bahwa 'kamu' tidak pernah ada sejak awal.";
+                } else if (option === 30) {
+                    story.innerText = "Sosok itu menjawab: 'Aku adalah kamu, atau mungkin bukan?'";
+                    buttons[0].innerText = "Apa maksudmu?";
+                    buttons[1].innerText = "Aku tidak percaya.";
+                    buttons[0].setAttribute("onclick", "choose(32)");
+                    buttons[1].setAttribute("onclick", "choose(33)");
+                } else if (option === 31) {
+                    story.innerText = "Sosok itu tersenyum dan menghilang, meninggalkanmu dalam kesunyian abadi.";
                     buttons[1].style.display = "none";
                 }
                 gameContainer.style.opacity = "1";
