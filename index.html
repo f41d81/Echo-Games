@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECHO: Siapa yang Berbicara?</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        #game-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            border: 2px solid white;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        .choice {
+            display: block;
+            margin: 10px 0;
+            padding: 10px;
+            border: 1px solid white;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+        }
+        .choice:hover {
+            background: white;
+            color: black;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>ECHO: Siapa yang Berbicara?</h1>
+        <p id="story">Kamu terbangun di sebuah ruangan gelap. Suara bergema di sekelilingmu, "Siapa yang ada di sana?"</p>
+        <button class="choice" onclick="choose(1)">"Aku di sini."</button>
+        <button class="choice" onclick="choose(2)">Diam.</button>
+    </div>
+    
+    <script>
+        function choose(option) {
+            let story = document.getElementById("story");
+            let buttons = document.querySelectorAll(".choice");
+            
+            if (option === 1) {
+                story.innerText = "Suara itu bertanya lagi: \"Siapa 'aku' yang berbicara?\"";
+                buttons[0].innerText = "Aku adalah... Aku?";
+                buttons[1].innerText = "Aku tidak tahu.";
+                buttons[0].setAttribute("onclick", "choose(3)");
+                buttons[1].setAttribute("onclick", "choose(4)");
+            } else if (option === 2) {
+                story.innerText = "Keheningan semakin dalam. Tidak ada suara, hanya keberadaan.";
+                buttons[0].style.display = "none";
+                buttons[1].innerText = "Teruskan...";
+                buttons[1].setAttribute("onclick", "choose(5)");
+            } else if (option === 3) {
+                story.innerText = "Jawabanmu bergema, tapi tidak ada kepastian. Apakah 'aku' itu nyata?";
+                buttons[0].innerText = "Ya, aku nyata.";
+                buttons[1].innerText = "Tidak, aku hanyalah pikiran.";
+                buttons[0].setAttribute("onclick", "choose(6)");
+                buttons[1].setAttribute("onclick", "choose(7)");
+            } else if (option === 4) {
+                story.innerText = "Tidak tahu? Lalu siapa yang menyadari bahwa dia tidak tahu?";
+                buttons[0].innerText = "Aku yang menyadari.";
+                buttons[1].innerText = "Kesadaran itu sendiri.";
+                buttons[0].setAttribute("onclick", "choose(6)");
+                buttons[1].setAttribute("onclick", "choose(7)");
+            } else if (option === 5) {
+                story.innerText = "Di dalam keheningan, segalanya lenyap. Tidak ada yang tersisa, kecuali...";
+                buttons[1].innerText = "Hanya ada keberadaan.";
+                buttons[1].setAttribute("onclick", "choose(8)");
+            } else if (option === 6 || option === 7) {
+                story.innerText = "ECHO berhenti. Permainan selesai, atau baru dimulai?";
+                buttons[0].style.display = "none";
+                buttons[1].innerText = "Mulai lagi.";
+                buttons[1].setAttribute("onclick", "location.reload()")
+            } else if (option === 8) {
+                story.innerText = "Keheningan adalah jawaban yang tidak perlu dipertanyakan lagi.";
+                buttons[1].style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
