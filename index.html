@@ -21,7 +21,7 @@
             border: 2px solid white;
             border-radius: 10px;
             background-color: rgba(255, 255, 255, 0.1);
-            transition: background 1s, opacity 1s;
+            transition: background 1s, opacity 1s, box-shadow 1s;
         }
         .choice {
             display: block;
@@ -41,6 +41,16 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+        @keyframes shake {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            25% { transform: translate(-1px, -2px) rotate(-1deg); }
+            50% { transform: translate(-3px, 0px) rotate(1deg); }
+            75% { transform: translate(3px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -1px) rotate(1deg); }
+        }
+        .shake {
+            animation: shake 0.5s;
+        }
         #story {
             animation: fadeIn 1.5s;
         }
@@ -58,6 +68,9 @@
     </audio>
     <audio id="mystery-sound">
         <source src="mystery-sound.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="intense-sound">
+        <source src="intense-sound.mp3" type="audio/mpeg">
     </audio>
     
     <div id="game-container">
@@ -81,6 +94,11 @@
             setTimeout(callback, 1000);
         }
         
+        function shakeEffect(element) {
+            element.classList.add("shake");
+            setTimeout(() => element.classList.remove("shake"), 500);
+        }
+        
         function choose(option) {
             let story = document.getElementById("story");
             let buttons = document.querySelectorAll(".choice");
@@ -95,6 +113,7 @@
                     buttons[0].setAttribute("onclick", "choose(3)");
                     buttons[1].setAttribute("onclick", "choose(4)");
                     document.body.style.backgroundColor = "#222";
+                    gameContainer.style.boxShadow = "0px 0px 20px rgba(255, 255, 255, 0.5)";
                     playSound("mystery-sound");
                 } else if (option === 2) {
                     story.innerText = "Keheningan semakin dalam. Tidak ada suara, hanya keberadaan.";
@@ -102,7 +121,9 @@
                     buttons[1].innerText = "Teruskan...";
                     buttons[1].setAttribute("onclick", "choose(5)");
                     document.body.style.backgroundColor = "#111";
-                    playSound("mystery-sound");
+                    gameContainer.style.boxShadow = "0px 0px 30px rgba(255, 0, 0, 0.5)";
+                    playSound("intense-sound");
+                    shakeEffect(gameContainer);
                 } else if (option === 3) {
                     story.innerText = "Jawabanmu bergema, tapi tidak ada kepastian. Apakah 'aku' itu nyata?";
                     buttons[0].innerText = "Ya, aku nyata.";
@@ -117,20 +138,6 @@
                     buttons[0].setAttribute("onclick", "choose(6)");
                     buttons[1].setAttribute("onclick", "choose(7)");
                     gameContainer.style.backgroundColor = "rgba(255, 255, 255, 0.3)";
-                } else if (option === 5) {
-                    story.innerText = "Di dalam keheningan, segalanya lenyap. Tidak ada yang tersisa, kecuali...";
-                    buttons[1].innerText = "Hanya ada keberadaan.";
-                    buttons[1].setAttribute("onclick", "choose(8)");
-                    document.body.style.backgroundColor = "#000";
-                } else if (option === 6 || option === 7) {
-                    story.innerText = "ECHO berhenti. Permainan selesai, atau baru dimulai?";
-                    buttons[0].style.display = "none";
-                    buttons[1].innerText = "Mulai lagi.";
-                    buttons[1].setAttribute("onclick", "location.reload()")
-                    document.body.style.backgroundColor = "#333";
-                } else if (option === 8) {
-                    story.innerText = "Keheningan adalah jawaban yang tidak perlu dipertanyakan lagi.";
-                    buttons[1].style.display = "none";
                 }
                 gameContainer.style.opacity = "1";
             });
