@@ -58,7 +58,6 @@
     </div>
 
     <script>
-        // Fungsi untuk membuat suara aneh menggunakan Web Audio API
         function playVoice() {
             let context = new (window.AudioContext || window.webkitAudioContext)();
             let oscillator = context.createOscillator();
@@ -120,11 +119,6 @@
                 buttons[0].innerText = "Aku telah berbicara kepada diriku sendiri.";
                 buttons[1].style.display = "none";
                 buttons[0].setAttribute("onclick", "choose(18)");
-            } else if (option === 15) {
-                story.innerText = "Permainan ini tidak nyata... ataukah kamu yang tidak nyata?";
-                buttons[0].innerText = "Aku tidak yakin.";
-                buttons[1].style.display = "none";
-                buttons[0].setAttribute("onclick", "choose(19)");
             } else if (option === 18) {
                 story.innerText = "Teks mulai bergetar... 'Apakah kamu masih di sini?'";
                 story.classList.add("glitch");
