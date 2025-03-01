@@ -48,10 +48,7 @@
     </style>
 </head>
 <body>
-    <audio id="mystery-voice">
-        <source src="mystery-voice.mp3" type="audio/mpeg">
-    </audio>
-    
+
     <div id="game-container">
         <h1>ECHO: Siapa yang Bermain?</h1>
         <p id="story">Kamu terbangun di ruang gelap. Suara bergema, "Siapa yang ada di sana?"</p>
@@ -61,8 +58,20 @@
     </div>
 
     <script>
+        // Fungsi untuk membuat suara aneh menggunakan Web Audio API
         function playVoice() {
-            document.getElementById("mystery-voice").play();
+            let context = new (window.AudioContext || window.webkitAudioContext)();
+            let oscillator = context.createOscillator();
+            let gainNode = context.createGain();
+
+            oscillator.type = "sine";
+            oscillator.frequency.setValueAtTime(100, context.currentTime);
+            gainNode.gain.setValueAtTime(0.2, context.currentTime);
+
+            oscillator.connect(gainNode);
+            gainNode.connect(context.destination);
+            oscillator.start();
+            setTimeout(() => oscillator.stop(), 700);
         }
 
         function choose(option) {
@@ -93,12 +102,6 @@
                 buttons[0].setAttribute("onclick", "choose(8)");
                 buttons[1].setAttribute("onclick", "choose(9)");
                 document.body.style.backgroundColor = "#333";
-            } else if (option === 4) {
-                story.innerText = "Bayanganmu di cermin tersenyum lebih dulu sebelum kamu tersenyum.";
-                buttons[0].innerText = "Menatap lebih lama.";
-                buttons[1].innerText = "Berbalik dan pergi.";
-                buttons[0].setAttribute("onclick", "choose(10)");
-                buttons[1].setAttribute("onclick", "choose(11)");
             } else if (option === 6) {
                 story.innerText = "Suara itu tertawa pelan: 'Sudah lama aku menunggumu...'";
                 buttons[0].innerText = "Siapa kamu?";
@@ -106,12 +109,6 @@
                 buttons[0].setAttribute("onclick", "choose(12)");
                 buttons[1].setAttribute("onclick", "choose(13)");
                 playVoice();
-            } else if (option === 10) {
-                story.innerText = "Refleksi berbicara: 'Aku adalah kamu, tapi kamu bukan aku.'";
-                buttons[0].innerText = "Bertanya lebih lanjut.";
-                buttons[1].innerText = "Lari!";
-                buttons[0].setAttribute("onclick", "choose(16)");
-                buttons[1].setAttribute("onclick", "choose(17)");
             } else if (option === 12) {
                 story.innerText = "Suara itu mendekat: 'Aku telah berbicara sejak awal. Siapa yang mendengar jika bukan aku?'";
                 buttons[0].innerText = "Aku mendengar.";
@@ -131,11 +128,25 @@
             } else if (option === 18) {
                 story.innerText = "Teks mulai bergetar... 'Apakah kamu masih di sini?'";
                 story.classList.add("glitch");
+                playVoice();
+                setTimeout(() => {
+                    story.innerText = "Kenapa kamu masih di sini?";
+                    story.classList.add("glitch");
+                }, 2000);
                 buttons[0].innerText = "Aku tidak yakin.";
                 buttons[0].setAttribute("onclick", "choose(20)");
             } else if (option === 20) {
                 story.innerText = "Jika kamu tidak yakin, bagaimana kamu tahu kalau kamu benar-benar bermain?";
-                buttons[0].style.display = "none";
+                buttons[0].style.opacity = "1";
+
+                let fadeOut = setInterval(() => {
+                    if (buttons[0].style.opacity > 0) {
+                        buttons[0].style.opacity -= 0.1;
+                    } else {
+                        clearInterval(fadeOut);
+                        buttons[0].style.display = "none";
+                    }
+                }, 300);
             }
 
             gameContainer.style.opacity = "1";
