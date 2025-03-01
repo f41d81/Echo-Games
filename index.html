@@ -37,33 +37,21 @@
             background: white;
             color: black;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        @keyframes shake {
-            0%, 100% { transform: translate(0, 0); }
-            25% { transform: translate(-3px, 2px); }
-            50% { transform: translate(3px, -3px); }
-            75% { transform: translate(-2px, 3px); }
-        }
-        .shake {
-            animation: shake 0.5s;
-        }
-        #story {
-            animation: fadeIn 1.5s;
-        }
-        .glitch {
-            animation: glitch 0.3s infinite;
-        }
         @keyframes glitch {
             0% { text-shadow: 2px 2px red; }
             50% { text-shadow: -2px -2px blue; }
             100% { text-shadow: 2px -2px green; }
         }
+        .glitch {
+            animation: glitch 0.3s infinite;
+        }
     </style>
 </head>
 <body>
+    <audio id="mystery-voice">
+        <source src="mystery-voice.mp3" type="audio/mpeg">
+    </audio>
+    
     <div id="game-container">
         <h1>ECHO: Siapa yang Bermain?</h1>
         <p id="story">Kamu terbangun di ruang gelap. Suara bergema, "Siapa yang ada di sana?"</p>
@@ -73,6 +61,10 @@
     </div>
 
     <script>
+        function playVoice() {
+            document.getElementById("mystery-voice").play();
+        }
+
         function choose(option) {
             let story = document.getElementById("story");
             let buttons = document.querySelectorAll(".choice");
@@ -87,9 +79,10 @@
                 buttons[1].setAttribute("onclick", "choose(5)");
                 document.body.style.backgroundColor = "#222";
             } else if (option === 2) {
-                story.innerText = "Keheningan semakin dalam. Ruangan mulai berubah...";
-                buttons[0].innerText = "Berjalan ke arah kegelapan.";
-                buttons[1].innerText = "Menunggu.";
+                story.innerText = "Keheningan semakin dalam... tetapi sesuatu berbisik di telingamu.";
+                playVoice();
+                buttons[0].innerText = "Menjawab suara itu.";
+                buttons[1].innerText = "Tetap diam.";
                 buttons[0].setAttribute("onclick", "choose(6)");
                 buttons[1].setAttribute("onclick", "choose(7)");
                 document.body.style.backgroundColor = "#111";
@@ -106,34 +99,43 @@
                 buttons[1].innerText = "Berbalik dan pergi.";
                 buttons[0].setAttribute("onclick", "choose(10)");
                 buttons[1].setAttribute("onclick", "choose(11)");
-            } else if (option === 5) {
-                story.innerText = "Jika kamu tidak tahu siapa dirimu, lalu siapa yang berbicara?";
-                buttons[0].style.display = "none";
-                buttons[1].innerText = "Terdiam dalam kebingungan.";
-                buttons[1].setAttribute("onclick", "choose(12)");
             } else if (option === 6) {
-                story.innerText = "Langkahmu tak berbunyi. Tidak ada tubuh, hanya kesadaran yang mengalir.";
-                buttons[0].innerText = "Terus berjalan.";
-                buttons[1].innerText = "Mencoba melihat tanganmu.";
-                buttons[0].setAttribute("onclick", "choose(13)");
-                buttons[1].setAttribute("onclick", "choose(14)");
-            } else if (option === 7) {
-                story.innerText = "Sebuah suara berbisik: 'Aku tahu kamu mendengarkan.'";
-                buttons[1].setAttribute("onclick", "choose(15)");
+                story.innerText = "Suara itu tertawa pelan: 'Sudah lama aku menunggumu...'";
+                buttons[0].innerText = "Siapa kamu?";
+                buttons[1].innerText = "Aku tidak ingin tahu.";
+                buttons[0].setAttribute("onclick", "choose(12)");
+                buttons[1].setAttribute("onclick", "choose(13)");
+                playVoice();
             } else if (option === 10) {
                 story.innerText = "Refleksi berbicara: 'Aku adalah kamu, tapi kamu bukan aku.'";
                 buttons[0].innerText = "Bertanya lebih lanjut.";
                 buttons[1].innerText = "Lari!";
                 buttons[0].setAttribute("onclick", "choose(16)");
                 buttons[1].setAttribute("onclick", "choose(17)");
-            } else if (option === 15) {
-                story.innerText = "Teks mulai bergetar. 'Apakah kamu masih di sini?'.";
-                story.classList.add("glitch");
-                buttons[1].innerText = "Aku tidak yakin.";
-                buttons[1].setAttribute("onclick", "choose(18)");
-            } else if (option === 18) {
-                story.innerText = "Jika kamu tidak yakin, bagaimana kamu tahu kalau kamu benar-benar bermain?";
+            } else if (option === 12) {
+                story.innerText = "Suara itu mendekat: 'Aku telah berbicara sejak awal. Siapa yang mendengar jika bukan aku?'";
+                buttons[0].innerText = "Aku mendengar.";
+                buttons[1].innerText = "Tidak... ini bukan nyata.";
+                buttons[0].setAttribute("onclick", "choose(14)");
+                buttons[1].setAttribute("onclick", "choose(15)");
+            } else if (option === 14) {
+                story.innerText = "Kamu sadar bahwa suara itu adalah milikmu sendiri.";
+                buttons[0].innerText = "Aku telah berbicara kepada diriku sendiri.";
                 buttons[1].style.display = "none";
+                buttons[0].setAttribute("onclick", "choose(18)");
+            } else if (option === 15) {
+                story.innerText = "Permainan ini tidak nyata... ataukah kamu yang tidak nyata?";
+                buttons[0].innerText = "Aku tidak yakin.";
+                buttons[1].style.display = "none";
+                buttons[0].setAttribute("onclick", "choose(19)");
+            } else if (option === 18) {
+                story.innerText = "Teks mulai bergetar... 'Apakah kamu masih di sini?'";
+                story.classList.add("glitch");
+                buttons[0].innerText = "Aku tidak yakin.";
+                buttons[0].setAttribute("onclick", "choose(20)");
+            } else if (option === 20) {
+                story.innerText = "Jika kamu tidak yakin, bagaimana kamu tahu kalau kamu benar-benar bermain?";
+                buttons[0].style.display = "none";
             }
 
             gameContainer.style.opacity = "1";
